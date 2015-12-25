@@ -5,7 +5,7 @@ describe PropLogic do
     expect(PropLogic::VERSION).not_to be nil
   end
 
-  it 'does something useful' do
-    expect(false).to eq(true)
+  it 'is a module' do
+    expect(PropLogic).to be_a(Module)
   end
 end

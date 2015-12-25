@@ -1,0 +1,41 @@
+require 'spec_helper'
+
+describe PropLogic::Term do
+  a = PropLogic::new_variable 'a'
+  b = PropLogic::new_variable 'b'
+  terms1 = [a, !a, a & b, a | b, a >> b]
+  c = PropLogic::new_variable 'c'
+  d = PropLogic::new_variable 'd'
+  terms2 = [c, !c, c & d, c | d, c >> d]
+  
+  terms1.each do |term|
+    context "Not(#{term.class.name})" do
+      it 'is a Term' do
+        expect(!term).to be_a(PropLogic::Term)
+      end
+      it 'generates the same object during two operations' do
+        expect(!term).to be_equal(!term)
+      end
+    end
+  end
+  
+  terms1.product(terms2, [:&, :|, :>>]) do |term1, term2, op|
+    context "#{term1.class.name} #{op} #{term2.class.name}" do
+      it 'is a Term' do
+        expect(term1.public_send(op, term2)).to be_a(PropLogic::Term)
+      end
+      it 'generates the same object during two operations' do
+        expect(term1.public_send(op, term2)).to be_equal(term1.public_send(op, term2))
+      end
+    end
+  end
+  
+  terms1.product([:&, :|, :>>]) do |term1, op|
+    context "#{term1.class.name} #{op} (Incompatible type)" do
+      it 'generates error' do
+        expect{term1.public_send(op, "test")}.to raise_error
+      end
+    end
+  end
+  
+end
