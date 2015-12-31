@@ -32,8 +32,8 @@ describe PropLogic::Term do
   
   terms1.product([:&, :|, :>>]) do |term1, op|
     context "#{term1.class.name} #{op} (Incompatible type)" do
-      it 'generates error' do
-        expect{term1.public_send(op, "test")}.to raise_error
+      it 'generates TypeError' do
+        expect{term1.public_send(op, "test")}.to raise_error(TypeError)
       end
     end
   end

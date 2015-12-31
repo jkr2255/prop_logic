@@ -6,7 +6,7 @@ describe PropLogic::Term do
   end
   
   it 'cannot be instansiate directly' do
-    expect{PropLogic::Term.new}.to raise_error
+    expect{PropLogic::Term.new}.to raise_error(NoMethodError)
   end
   
   expected_methods = [:|, :&, :or, :and, :not, :!, :-@, :then, :>>,
