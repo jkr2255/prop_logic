@@ -55,8 +55,20 @@ module PropLogic
       false
     end
     
+    def reduce
+      if reduced?
+        self
+      else
+        Term.get self.class, *@terms.map(&:reduce)
+      end
+    end
+    
+    def reduced?
+      false
+    end
+    
     def to_cnf
-      to_nnf.to_cnf
+      reduce.to_cnf
     end
     
     # TODO: accept true/false

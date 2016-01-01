@@ -5,4 +5,5 @@ require "prop_logic/or_term"
 require "prop_logic/not_term"
 require "prop_logic/then_term"
 require 'prop_logic/variable'
+require 'prop_logic/constants'
 require 'prop_logic/functions'

@@ -3,6 +3,9 @@ module PropLogic
     def initialize(*terms)
       @terms = terms.map{|t| t.is_a?(AndTerm) ? t.terms : t}.flatten
       @is_nnf = @terms.all?(&:nnf?) 
+      @is_reduced = @terms.all? do |term|
+        term.reduced? && ! term.is_a?(Constant)
+      end
     end
     
     def to_s(in_term = false)
@@ -13,9 +16,27 @@ module PropLogic
     def nnf?
       @is_nnf
     end
+
+    def reduced?
+      @is_reduced
+    end
+    
+    def reduce
+      return self if reduced?
+      reduced_terms = @terms.map(&:reduce)
+      reduced_terms.reject!{|term| term.equal?(True)}
+      return True if reduced_terms.empty?
+      if reduced_terms.any?{|term| term.equal?(False)}
+        False
+      elsif reduced_terms.length == 1
+        reduced_terms[0]
+      else
+        Term.get self.class, *reduced_terms
+      end
+    end
     
     def to_cnf
-      return super unless nnf?
+      return super unless reduced?
       return self if @terms.all?(&:simple?)
       pool = []
       without_pools = CnfMaker.all_and(*@terms.map{|t| t.tseitin(pool)})

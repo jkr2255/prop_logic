@@ -28,8 +28,25 @@ module PropLogic
       end
     end
     
+    def reduced?
+      nnf? && ! (@terms[0].is_a?(Constant))
+    end
+    
+    def reduce
+      return self if reduced?
+      reduced_term = @terms[0].reduce
+      case reduced_term
+      when TrueConstant
+        False
+      when FalseConstant
+        True
+      else
+        (!reduced_term).to_nnf
+      end
+    end
+    
     def to_cnf
-      if nnf?
+      if reduced?
         self
       else
         super

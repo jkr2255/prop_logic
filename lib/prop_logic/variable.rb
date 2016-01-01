@@ -15,6 +15,10 @@ module PropLogic
       true
     end
     
+    def reduced?
+      true
+    end
+    
     def to_cnf
       self
     end
