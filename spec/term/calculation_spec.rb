@@ -3,10 +3,10 @@ require 'spec_helper'
 describe PropLogic::Term do
   a = PropLogic::new_variable 'a'
   b = PropLogic::new_variable 'b'
-  terms1 = [a, !a, a & b, a | b, a >> b]
+  terms1 = [a, !a, a & b, a | b, a >> b, PropLogic::True, PropLogic::False]
   c = PropLogic::new_variable 'c'
   d = PropLogic::new_variable 'd'
-  terms2 = [c, !c, c & d, c | d, c >> d]
+  terms2 = [c, !c, c & d, c | d, c >> d, PropLogic::True, PropLogic::False, true, false]
   
   terms1.each do |term|
     context "Not(#{term.class.name})" do

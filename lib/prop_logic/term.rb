@@ -71,10 +71,19 @@ module PropLogic
       reduce.to_cnf
     end
     
-    # TODO: accept true/false
     def self.validate_terms(*terms)
-      raise TypeError unless terms.all?{ |term| term.is_a?(Term) }
-      terms
+      terms.map do |term|
+        case term
+        when TrueClass
+          True
+        when FalseClass
+          False
+        when Term
+          term
+        else
+          raise TypeError
+        end
+      end
     end
     
     def self.get(klass, *terms)
