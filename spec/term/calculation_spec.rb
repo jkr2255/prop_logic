@@ -38,4 +38,12 @@ describe PropLogic::Term do
     end
   end
   
+  terms1.each do |term|
+    context "#{term.class}" do
+      it 'cannot be duplicated' do
+        expect{term.dup}.to raise_error(TypeError)
+      end
+    end
+  end
+  
 end

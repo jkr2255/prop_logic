@@ -6,6 +6,10 @@ module PropLogic
       raise NotImplementedError, 'Term cannot be initialized'
     end
     
+    def initialize_copy(*)
+      raise TypeError, 'Term cannot be duplicated (immutable, not necessary)'
+    end
+    
     class << self
       protected :new
     end
