@@ -34,5 +34,15 @@ module PropLogic
     def variables
       [self]
     end
+    
+    def assign(trues, falses, variables = nil)
+      if trues.include? self
+        True
+      elsif falses.include? self
+        False
+      else
+        self
+      end
+    end
   end
 end

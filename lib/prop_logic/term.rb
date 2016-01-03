@@ -96,7 +96,7 @@ module PropLogic
       return @table[key] if @table[key]
       ret = klass.__send__ :new, *terms
       @table[key] = ret
-      ret
+      ret.freeze
     end
     
     def simple?
@@ -108,5 +108,28 @@ module PropLogic
     def variables
       @terms.map(&:variables).flatten.uniq
     end
+    
+    def assign(trues, falses, variables = nil)
+      # contradicted assignment
+      raise ArgumentError, 'Contradicted assignment' unless (trues & falses).empty?
+      variables ||= trues | falses
+      assigned_terms = terms.map do |term|
+        if (term.variables & variables).empty?
+          term
+        else
+          term.assign(trues, falses, variables)
+        end
+      end
+      Term.get self.class, *assigned_terms
+    end
+    
+    def assign_true(*variables)
+      assign variables, []
+    end
+    
+    def assign_false(*variables)
+      assign [], variables
+    end
+    
   end
 end
