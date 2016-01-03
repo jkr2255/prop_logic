@@ -22,9 +22,9 @@ module PropLogic
       when ThenTerm
         (!(term.to_nnf)).to_nnf
       when AndTerm
-        PropLogic.all_or(term.terms.map{|t| (!t).to_nnf})
+        PropLogic.all_or(*term.terms.map{|t| (!t).to_nnf})
       when OrTerm
-        PropLogic.all_and(term.terms.map{|t| (!t).to_nnf})
+        PropLogic.all_and(*term.terms.map{|t| (!t).to_nnf})
       end
     end
     
