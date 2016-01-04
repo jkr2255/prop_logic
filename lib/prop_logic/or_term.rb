@@ -4,7 +4,7 @@ module PropLogic
       @terms = terms.map{|t| t.is_a?(OrTerm) ? t.terms : t}.flatten
       @is_nnf = @terms.all?(&:nnf?) 
       @is_reduced = @terms.all? do |term|
-        term.reduced? && ! term.is_a?(Constant)
+        term.reduced? && ! term.is_a?(Constant) && ! term.is_a?(NotTerm)
       end
     end
     
@@ -31,6 +31,9 @@ module PropLogic
       elsif reduced_terms.length == 1
         reduced_terms[0]
       else
+        not_terms = reduced_terms.select{|term| term.is_a?(NotTerm)}
+        negated_terms = not_terms.map{|term| term.terms[0]}
+        return True unless (negated_terms & reduced_terms).empty?
         Term.get self.class, *reduced_terms
       end
     end
