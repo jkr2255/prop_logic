@@ -17,6 +17,12 @@ describe PropLogic::Term do
         expect(!term).to be_equal(!term)
       end
     end
+    
+    context "#{term.class.name}" do
+      it 'is frozen' do
+        expect(term).to be_frozen
+      end
+    end
   end
   
   terms1.product(terms2, [:&, :|, :>>]) do |term1, term2, op|

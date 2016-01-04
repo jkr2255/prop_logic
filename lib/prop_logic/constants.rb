@@ -40,6 +40,6 @@ module PropLogic
     end
   end
   
-  True = TrueConstant.instance
-  False = FalseConstant.instance
+  True = TrueConstant.instance.freeze
+  False = FalseConstant.instance.freeze
 end

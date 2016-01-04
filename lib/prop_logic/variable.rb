@@ -3,6 +3,7 @@ module PropLogic
     def initialize(name = nil)
       @name = name || "v_#{object_id}"
       @terms = nil
+      freeze
     end
     
     public_class_method :new
