@@ -135,5 +135,46 @@ module PropLogic
       assign [], variables
     end
     
+    def all_combination(arr)
+      0.upto(arr.length) do |num|
+        arr.combination(num){|c| yield c}
+      end
+    end
+    
+    private :all_combination
+    
+    def reducible_to_constant?(trues, falses)
+      step_reduced = assign(trues, falses).reduce
+      return step_reduced if step_reduced.is_a?(Constant)
+      # test all residue variables
+      ret = nil
+      all_combination(step_reduced.variables) do |reduced_trues|
+        reduced_falses = step_reduced.variables - reduced_trues
+        last = step_reduced.assign(reduced_trues, reduced_falses).reduce
+        if ret
+          return nil if last != ret
+        else
+          ret = last
+        end
+      end
+      ret
+    end
+    
+    protected :reducible_to_constant?
+    
+    def equiv?(other)
+      # shortcut for the same terms
+      return true if self == other
+      commons = variables & other.variables
+      all_combination(commons) do |common_trues|
+        common_falses = commons - common_trues
+        self_reduced = reducible_to_constant?(common_trues, common_falses)
+        return false unless self_reduced
+        other_reduced = other.reducible_to_constant?(common_trues, common_falses)
+        return false if other_reduced != self_reduced
+      end
+      true
+    end
+    
   end
 end
