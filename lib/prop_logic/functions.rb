@@ -14,4 +14,13 @@ module PropLogic
   end
   
   extend Functions
+  
+  def all_combination(arr)
+    0.upto(arr.length) do |num|
+      arr.combination(num){|c| yield c}
+    end
+  end
+  
+  module_function :all_combination
+  
 end
