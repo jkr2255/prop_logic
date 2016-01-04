@@ -5,7 +5,7 @@ describe PropLogic::Term do
     expect(PropLogic::Term).to be_a(Class)
   end
   
-  it 'cannot be instansiate directly' do
+  it 'cannot be instantiated directly' do
     expect{PropLogic::Term.new}.to raise_error(NoMethodError)
   end
   
