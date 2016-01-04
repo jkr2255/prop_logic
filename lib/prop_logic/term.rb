@@ -85,7 +85,7 @@ module PropLogic
         when Term
           term
         else
-          raise TypeError
+          raise TypeError, "#{term.class} cannot be treated as term"
         end
       end
     end
