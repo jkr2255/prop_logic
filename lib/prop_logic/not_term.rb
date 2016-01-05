@@ -1,7 +1,7 @@
 module PropLogic
   class NotTerm < Term
     def initialize(term)
-      @terms = [term]
+      @terms = [term].freeze
     end
     
     def to_s(*)

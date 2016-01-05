@@ -1,7 +1,7 @@
 module PropLogic
   class ThenTerm < Term
     def initialize(term1, term2)
-      @terms = [term1, term2]
+      @terms = [term1, term2].freeze
     end
     
     def to_s(in_term = false)

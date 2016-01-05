@@ -1,7 +1,7 @@
 module PropLogic
   class AndTerm < Term
     def initialize(*terms)
-      @terms = terms.map{|t| t.is_a?(AndTerm) ? t.terms : t}.flatten
+      @terms = terms.map{|t| t.is_a?(AndTerm) ? t.terms : t}.flatten.freeze
       @is_nnf = @terms.all?(&:nnf?)
       # term with negative terms are no longer terated as reduced
       @is_reduced = @terms.all? do |term|

@@ -22,6 +22,13 @@ describe PropLogic::Term do
       it 'is frozen' do
         expect(term).to be_frozen
       end
+      
+      context '#terms' do
+        it 'cannot be altered' do
+          expect{term.terms << True}.to raise_error
+        end
+      end
+      
     end
   end
   

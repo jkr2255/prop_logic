@@ -1,7 +1,7 @@
 module PropLogic
   class OrTerm < Term
     def initialize(*terms)
-      @terms = terms.map{|t| t.is_a?(OrTerm) ? t.terms : t}.flatten
+      @terms = terms.map{|t| t.is_a?(OrTerm) ? t.terms : t}.flatten.freeze
       @is_nnf = @terms.all?(&:nnf?) 
       @is_reduced = @terms.all? do |term|
         term.reduced? && ! term.is_a?(Constant) && ! term.is_a?(NotTerm)
