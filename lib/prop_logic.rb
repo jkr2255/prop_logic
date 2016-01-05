@@ -7,3 +7,4 @@ require "prop_logic/then_term"
 require 'prop_logic/variable'
 require 'prop_logic/constants'
 require 'prop_logic/functions'
+require 'prop_logic/brute_force_sat_solver'
