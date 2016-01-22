@@ -159,17 +159,7 @@ module PropLogic
     end
     
     def equiv?(other)
-      # shortcut for the same terms
-      return true if self == other
-      commons = variables & other.variables
-      PropLogic.all_combination(commons) do |common_trues|
-        common_falses = commons - common_trues
-        self_reduced = reducible_to_constant?(common_trues, common_falses)
-        return false unless self_reduced
-        other_reduced = other.reducible_to_constant?(common_trues, common_falses)
-        return false if other_reduced != self_reduced
-      end
-      true
+      ((self | other) & (!self | !other)).sat? == false 
     end
     
   end
