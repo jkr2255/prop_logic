@@ -154,6 +154,10 @@ module PropLogic
     
     protected :reducible_to_constant?
     
+    def sat?
+      PropLogic.sat_solver.sat?(self)
+    end
+    
     def equiv?(other)
       # shortcut for the same terms
       return true if self == other
