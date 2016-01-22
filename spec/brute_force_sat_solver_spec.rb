@@ -15,13 +15,13 @@ describe PropLogic::BruteForceSatSolver do
       expect(PropLogic::BruteForceSatSolver.sat?(a & b)).to be_a(PropLogic::Term)
     end
     
-    it 'returns nil when unsatisfied' do
-      expect(PropLogic::BruteForceSatSolver.sat?(a & !a)).to be nil
+    it 'returns false when unsatisfied' do
+      expect(PropLogic::BruteForceSatSolver.sat?(a & !a)).to be false
     end
     
     context '(edge cases)' do
-      it 'returns nil when False is passed' do
-        expect(PropLogic::BruteForceSatSolver.sat?(PropLogic::False)).to be nil
+      it 'returns false when False is passed' do
+        expect(PropLogic::BruteForceSatSolver.sat?(PropLogic::False)).to be false
       end
       
       it 'returns True when True is passed' do

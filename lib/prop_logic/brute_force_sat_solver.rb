@@ -13,7 +13,7 @@ module PropLogic
           return PropLogic.all_and(*trues, *negated_falses)
         end
         # UNSAT
-        nil
+        false
       end
     end
   end
