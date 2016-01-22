@@ -158,8 +158,12 @@ module PropLogic
       PropLogic.sat_solver.sat?(self)
     end
     
+    def unsat?
+      sat? == false
+    end
+    
     def equiv?(other)
-      ((self | other) & (!self | !other)).sat? == false 
+      ((self | other) & (!self | !other)).unsat? 
     end
     
   end
