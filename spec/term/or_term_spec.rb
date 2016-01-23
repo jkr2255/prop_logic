@@ -1,27 +1,6 @@
 require 'spec_helper'
 
 describe PropLogic::OrTerm do
-  let(:terms1) do
-    a = PropLogic::new_variable 'a'
-    b = PropLogic::new_variable 'b'
-    {
-      variable: a,
-      not: !a,
-      and: (a & b),
-      then: (a >> b),
-    }
-  end
-  
-  let(:terms2) do
-    c = PropLogic::new_variable 'c'
-  	d = PropLogic::new_variable 'd'
-    {
-      variable: c,
-      not: !c,
-      and: (c & d),
-      then: (c >> d),
-    }
-  end
   
   it 'cannot be instantiated directly' do
     expect{PropLogic::OrTerm.new}.to raise_error(NoMethodError)
