@@ -34,7 +34,7 @@ module PropLogic
       Term.get NotTerm, self
     end
     
-    alias_method :!, :not
+    alias_method :~, :not
     alias_method :-@, :not
     
     def then(other)
@@ -163,7 +163,7 @@ module PropLogic
     end
     
     def equiv?(other)
-      ((self | other) & (!self | !other)).unsat? 
+      ((self | other) & (~self | ~other)).unsat? 
     end
     
   end

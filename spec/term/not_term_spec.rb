@@ -5,11 +5,11 @@ describe PropLogic::NotTerm do
     a = PropLogic::new_variable 'a'
     b = PropLogic::new_variable 'b'
     {
-      variable: !a,
-      not: !!a,
-      and: !(a & b),
-      or: !(a | b),
-      then: !(a >> b),
+      variable: ~a,
+      not: ~~a,
+      and: ~(a & b),
+      or: ~(a | b),
+      then: ~(a >> b),
     }
   end
   

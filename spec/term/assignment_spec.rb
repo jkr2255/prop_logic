@@ -17,8 +17,8 @@ describe 'PropLogic::Term#assign' do
     end
     
     it 'can be assigned to one level uniary term' do
-      expect((!a).assign_true(a)).to be_equal(!True)
-      expect((!a).assign_false(a)).to be_equal(!False)
+      expect((~a).assign_true(a)).to be_equal(~True)
+      expect((~a).assign_false(a)).to be_equal(~False)
     end
     
     it 'can be assigned to multi level terms' do

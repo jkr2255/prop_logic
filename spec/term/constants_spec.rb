@@ -13,7 +13,7 @@ describe PropLogic::True do
   end
   
   it 'becomes False when negated and reduced' do
-    expect((!True).reduce).to be_equal(False)
+    expect((~True).reduce).to be_equal(False)
   end
   
   it 'is ignored in and terms when reduced' do
@@ -46,7 +46,7 @@ describe PropLogic::False do
   end
   
   it 'becomes True when negated and reduced' do
-    expect((!False).reduce).to be_equal(True)
+    expect((~False).reduce).to be_equal(True)
   end
   
   it 'is ignored in or terms when reduced' do
@@ -64,7 +64,7 @@ describe PropLogic::False do
   end
   
   it 'makes then term a negation of condition (in result)' do
-    expect((a >> False).reduce).to be_equal(!a)
+    expect((a >> False).reduce).to be_equal(~a)
   end
   
 end

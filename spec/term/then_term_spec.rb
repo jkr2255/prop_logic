@@ -13,6 +13,6 @@ describe PropLogic::ThenTerm do
   end
   
   it 'is equivalent to !a | b' do
-    expect(a >> b).to be_equiv(!a | b)
+    expect(a >> b).to be_equiv(~a | b)
   end
 end

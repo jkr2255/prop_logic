@@ -6,7 +6,7 @@ module PropLogic
       @is_reduced = @is_nnf && @terms.all? do |term|
         if term.is_a?(Constant) || !term.reduced?
           false
-        elsif !term.is_a?(NotTerm)
+        elsif !(term.is_a?(NotTerm))
           true
         else
           # NotTerm
@@ -62,7 +62,7 @@ module PropLogic
     def tseitin(pool)
       val = Variable.new
       terms = @terms.map{|t| t.tseitin(pool)}
-      pool << (!val | CnfMaker.all_or(terms))
+      pool << (~val | CnfMaker.all_or(terms))
       val      
     end
 

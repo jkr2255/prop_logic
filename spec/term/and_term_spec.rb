@@ -15,6 +15,6 @@ describe PropLogic::AndTerm do
   
   it 'can be reduced to False with contradicted conditions' do
     e = PropLogic::new_variable 'e'
-    expect((e & !e).reduce).to be_equal(False)
+    expect((e & ~e).reduce).to be_equal(False)
   end
 end

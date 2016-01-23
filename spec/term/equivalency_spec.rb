@@ -7,7 +7,7 @@ describe 'PropLogic::Term#equiv?' do
   let(:d){PropLogic::Variable.new 'd'}
 
   it 'returns true with the same terms' do
-    term = (a & b) | (c >> !d)
+    term = (a & b) | (c >> ~d)
     expect(term).to be_equiv(term)
   end
   
@@ -19,7 +19,7 @@ describe 'PropLogic::Term#equiv?' do
   
   it 'returns true with double negation' do
     term = (a & b) | c
-    expect(!!term).to be_equiv(term)
+    expect(~~term).to be_equiv(term)
   end
   
   it 'returns true with terms of different orders' do
@@ -29,8 +29,8 @@ describe 'PropLogic::Term#equiv?' do
   end
   
   it 'returns true with De Morgan\'s law' do
-    expect(!(a | b)).to be_equiv(!a & !b)
-    expect(!(a & b)).to be_equiv(!a | !b)
+    expect(~(a | b)).to be_equiv(~a & ~b)
+    expect(~(a & b)).to be_equiv(~a | ~b)
   end
   
   it 'returns properly with variables' do
@@ -39,7 +39,7 @@ describe 'PropLogic::Term#equiv?' do
   end
   
   it 'returns true with redundant variables' do
-    expect((a & b) | (!a & b)).to be_equiv(b)
+    expect((a & b) | (~a & b)).to be_equiv(b)
   end
 
 end

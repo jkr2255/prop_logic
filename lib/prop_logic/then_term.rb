@@ -14,7 +14,7 @@ module PropLogic
     end
     
     def to_nnf
-      (!@terms[0]).to_nnf | @terms[1].to_nnf
+      (~@terms[0]).to_nnf | @terms[1].to_nnf
     end
     
     def reduce

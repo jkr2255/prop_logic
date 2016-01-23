@@ -15,6 +15,6 @@ describe PropLogic::OrTerm do
   
   it 'can be reduced to True with obvious conditions' do
     e = PropLogic::new_variable 'e'
-    expect((e | !e).reduce).to be_equal(True)
+    expect((e | ~e).reduce).to be_equal(True)
   end
 end

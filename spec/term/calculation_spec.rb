@@ -3,18 +3,18 @@ require 'spec_helper'
 describe PropLogic::Term do
   a = PropLogic::new_variable 'a'
   b = PropLogic::new_variable 'b'
-  terms1 = [a, !a, a & b, a | b, a >> b, PropLogic::True, PropLogic::False]
+  terms1 = [a, ~a, a & b, a | b, a >> b, PropLogic::True, PropLogic::False]
   c = PropLogic::new_variable 'c'
   d = PropLogic::new_variable 'd'
-  terms2 = [c, !c, c & d, c | d, c >> d, PropLogic::True, PropLogic::False, true, false]
+  terms2 = [c, ~c, c & d, c | d, c >> d, PropLogic::True, PropLogic::False, true, false]
   
   terms1.each do |term|
     context "Not(#{term.class.name})" do
       it 'is a Term' do
-        expect(!term).to be_a(PropLogic::Term)
+        expect(~term).to be_a(PropLogic::Term)
       end
       it 'generates the same object during two operations' do
-        expect(!term).to be_equal(!term)
+        expect(~term).to be_equal(~term)
       end
     end
     

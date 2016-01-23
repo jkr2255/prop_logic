@@ -9,7 +9,7 @@ describe PropLogic::Term do
     expect{PropLogic::Term.new}.to raise_error(NoMethodError)
   end
   
-  expected_methods = [:|, :&, :or, :and, :not, :!, :-@, :then, :>>,
+  expected_methods = [:|, :&, :or, :and, :not, :~, :-@, :then, :>>,
   :to_nnf, :to_cnf, :nnf?, :terms, :variables]
   
   expected_methods.each do |sym|

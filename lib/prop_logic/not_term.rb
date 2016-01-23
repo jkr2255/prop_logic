@@ -5,7 +5,7 @@ module PropLogic
     end
     
     def to_s(*)
-      "!" + @terms[0].to_s(true)
+      "~" + @terms[0].to_s(true)
     end
     
     def nnf?
@@ -22,9 +22,9 @@ module PropLogic
       when ThenTerm
         (!(term.to_nnf)).to_nnf
       when AndTerm
-        PropLogic.all_or(*term.terms.map{|t| (!t).to_nnf})
+        PropLogic.all_or(*term.terms.map{|t| (~t).to_nnf})
       when OrTerm
-        PropLogic.all_and(*term.terms.map{|t| (!t).to_nnf})
+        PropLogic.all_and(*term.terms.map{|t| (~t).to_nnf})
       end
     end
     
@@ -41,7 +41,7 @@ module PropLogic
       when FalseConstant
         True
       else
-        (!reduced_term).to_nnf
+        (~reduced_term).to_nnf
       end
     end
     
