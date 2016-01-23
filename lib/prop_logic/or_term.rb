@@ -3,7 +3,7 @@ module PropLogic
     def initialize(*terms)
       @terms = terms.map{|t| t.is_a?(OrTerm) ? t.terms : t}.flatten.freeze
       @is_nnf = @terms.all?(&:nnf?) 
-      @is_reduced = @terms.all? do |term|
+      @is_reduced = @is_nnf && @terms.all? do |term|
         if term.is_a?(Constant) || !term.reduced?
           false
         elsif !term.is_a?(NotTerm)
