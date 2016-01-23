@@ -4,8 +4,21 @@ module PropLogic
       @terms = terms.map{|t| t.is_a?(OrTerm) ? t.terms : t}.flatten.freeze
       @is_nnf = @terms.all?(&:nnf?) 
       @is_reduced = @terms.all? do |term|
-        term.reduced? && ! term.is_a?(Constant) && ! term.is_a?(NotTerm)
-      end
+        if term.is_a?(Constant) || !term.reduced?
+          false
+        elsif !term.is_a?(NotTerm)
+          true
+        else
+          # NotTerm
+          term.terms[0].is_a?(Variable)
+        end
+      return unless @is_reduced
+      # check obvious variables (mark as unreduced)
+      # Negated terms (except variables) doesn't come here
+      not_terms = @terms.select{ |t| t.is_a?(NotTerm) }
+      negated_variales = not_terms.map{|t| t.terms[0]}
+      @is_reduced = false unless (negated_variales & @terms).empty?
+     end
     end
     
     def to_s(in_term = false)
