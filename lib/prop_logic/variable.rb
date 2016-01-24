@@ -28,7 +28,7 @@ module PropLogic
       self
     end
     
-    def simple?
+    def cnf?
       true
     end
     

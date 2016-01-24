@@ -63,6 +63,6 @@ module PropLogic
       end
     end
     
-    alias_method :simple?, :nnf?
+    alias_method :cnf?, :reduced?
   end
 end

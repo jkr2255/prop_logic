@@ -51,9 +51,14 @@ module PropLogic
       end
     end
     
+    def cnf?
+      return false unless reduced?
+      ! @terms.any?{ |term| term.is_a?(AndTerm) }
+    end
+    
     def to_cnf
       return super unless reduced?
-      return self if simple?
+      return self if cnf?
       pool = []
       without_pools = tseitin(pool)
       PropLogic.all_and(without_pools, *pool)
@@ -62,14 +67,9 @@ module PropLogic
     def tseitin(pool)
       val = Variable.new
       terms = @terms.map{|t| t.tseitin(pool)}
-      pool << (~val | CnfMaker.all_or(terms))
+      pool << (~val | PropLogic.all_or(*terms))
       val      
     end
 
-    def simple?
-      @terms.all? do |t|
-        t.is_a?(Variable) || (t.is_a?(NotTerm) && t.simple?)
-      end
-    end
   end
 end

@@ -103,11 +103,9 @@ module PropLogic
       ret.freeze
     end
     
-    def simple?
+    def cnf?
       false
     end
-    
-    protected :simple?
     
     def variables
       @terms.map(&:variables).flatten.uniq
