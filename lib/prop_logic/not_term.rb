@@ -20,7 +20,7 @@ module PropLogic
       when Variable
         self
       when ThenTerm
-        (!(term.to_nnf)).to_nnf
+        (~(term.to_nnf)).to_nnf
       when AndTerm
         PropLogic.all_or(*term.terms.map{|t| (~t).to_nnf})
       when OrTerm
