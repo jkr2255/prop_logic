@@ -3,10 +3,10 @@ require 'spec_helper'
 describe PropLogic::Term do
   a = PropLogic::new_variable 'a'
   b = PropLogic::new_variable 'b'
-  terms1 = [a, ~a, a & b, a | b, a >> b, PropLogic::True, PropLogic::False]
+  terms1 = [a, ~a, a & b, a | b, a >> b, PropLogic::True, PropLogic::False].freeze
   c = PropLogic::new_variable 'c'
   d = PropLogic::new_variable 'd'
-  terms2 = [c, ~c, c & d, c | d, c >> d, PropLogic::True, PropLogic::False, true, false]
+  terms2 = [c, ~c, c & d, c | d, c >> d, PropLogic::True, PropLogic::False, true, false].freeze
   
   terms1.each do |term|
     context "Not(#{term.class.name})" do
@@ -32,7 +32,8 @@ describe PropLogic::Term do
     end
   end
   
-  terms1.product(terms2, [:&, :|, :>>]) do |term1, term2, op|
+  # dup for avoiding Rubinius bug (https://github.com/rubinius/rubinius/issues/3587)
+  terms1.dup.product(terms2, [:&, :|, :>>]) do |term1, term2, op|
     context "#{term1.class.name} #{op} #{term2.class.name}" do
       it 'is a Term' do
         expect(term1.public_send(op, term2)).to be_a(PropLogic::Term)
@@ -43,7 +44,7 @@ describe PropLogic::Term do
     end
   end
   
-  terms1.product([:&, :|, :>>]) do |term1, op|
+  terms1.dup.product([:&, :|, :>>]) do |term1, op|
     context "#{term1.class.name} #{op} (Incompatible type)" do
       it 'generates TypeError' do
         expect{term1.public_send(op, "test")}.to raise_error(TypeError)
