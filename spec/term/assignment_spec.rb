@@ -56,12 +56,12 @@ describe 'PropLogic::Term#assign' do
   
   context 'contradicted assignment' do
     it 'causes error when assigned to true/false at the same time' do
-      expect{(a & b).assign([a],[a])}.to raise_error
+      expect{(a & b).assign([a],[a])}.to raise_error(ArgumentError)
     end
     
     it 'causes error when trying to assign True to False / vice versa' do
-      expect{True.assign_false(True)}.to raise_error
-      expect{False.assign_true(False)}.to raise_error
+      expect{True.assign_false(True)}.to raise_error(ArgumentError)
+      expect{False.assign_true(False)}.to raise_error(ArgumentError)
     end
   end
   
