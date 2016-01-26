@@ -2,7 +2,7 @@ module PropLogic
   class Variable < Term
     def initialize(name = nil)
       @name = name || "v_#{object_id}"
-      @terms = nil
+      @terms = [].freeze
       freeze
     end
     

@@ -17,7 +17,7 @@ describe PropLogic::Variable do
   end
   
   it 'has no term' do
-    expect(a.terms).to eq nil
+    expect(a.terms).to eq []
   end
   
   it 'has one variable' do
