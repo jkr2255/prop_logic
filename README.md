@@ -1,8 +1,8 @@
 # PropLogic
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/prop_logic`. To experiment with that code, run `bin/console` for an interactive prompt.
+[![Build Status](https://travis-ci.org/jkr2255/prop_logic.svg?branch=master)](https://travis-ci.org/jkr2255/prop_logic)
 
-TODO: Delete this and the text above, and describe your gem
+PropLogic implements propositional logic in Ruby, usable like normal variables.
 
 ## Installation
 
@@ -20,9 +20,105 @@ Or install it yourself as:
 
     $ gem install prop_logic
 
-## Usage
+### Requirements
+Using with CRuby, Version >= 2.0.0 is required. Doesn't work stably on 1.9.x due to unreliable behaviors on weak reference.
 
-TODO: Write usage instructions here
+In JRuby and Rubinus it should work.
+
+## Usage
+### Overview
+First, variables can be declared using `PropLogic.new_variable`. Next, it can be calculated using normal Ruby operators
+such as `&`, `|`, `~`, and some methods. Finally, you can test satisfiability of these expressions.
+
+```ruby
+# declartion
+a = PropLogic.new_variable 'a'
+b = PropLogic.new_variable 'b'
+c = PropLogic.new_variable 'c'
+
+# calculation
+expr1 = (a & b) | c
+expr2 = ~(a.then(b))
+expr3 = expr1 | expr2
+
+# conversion
+nnf = expr3.to_nnf
+cnf = expr3.to_cnf
+sat = expr3.sat?
+
+# comparement
+diff = (~a | ~b).equiv?(~(a & b)) # true
+
+# assignment
+(a & b).assign_true(a).assign_false(b).reduce # PropLogic::False
+```
+
+## Restriction
+SAT solver bundled with this gem is brute-force solver (intended only for testing), so it is inappropriate to use for
+real-scale problems.
+
+## References
+`PropLogic::Term` is immutable, meaning that all calculations return new Terms.
+### `PropLogic::Term` instance methods
+#### `#and(*others)`, `#&(*others)`
+calculate `self & others[0] & others[1] & ...`.
+#### `#or(*others)`, `#|(*others)`
+calculate `self | others[0] | others[1] & ...`.
+
+#### Warning for reducing with `&` / `|`
+Because of immutability and internal system of and/or terms, `many_terms.reduce(&:and)` is exteremely slow.
+Use `PropLogic.all_and`/`PropLogic.all_or` or `one_term.and(*others)` to avoid this pitfall.
+
+#### `#not()`,`#~()`, `#-@()`
+calculate `Not(self)`. `#!` is not present because it confuses Ruby behavior. (if present, `!term` is always *truthy*)
+
+#### `#then(other), #>>(other)`
+caslculate `If self then other`.
+
+#### NNF
+NNF doesn't contain following terms:
+- If-then
+- Negation of And/Or
+- Double negation
+
+`#nnf?` checks if the term is NNF, and `#to_nnf` returns term converted to NNF.
+
+#### Reduction
+Term is regarded as reduced if it is NNF and it contains no constants (`PropLogic::True`/`PropLogic::False`).
+
+`#reduced?` checks if the term is reduced, and `#reduce` returns reduced term.
+
+#### Reduction
+CNF is one of these:
+1. Variable and its negation
+2. Logical sum of multiple 1
+3. Logical product of multiple (1 or 2)
+
+`#cnf?` checks if the term is CNF, and `#to_cnf` returns terms converted to CNF (may use extra variables).
+
+#### SAT judgement
+`#sat?` returns:
+- boolean `false` if unsatisfiable
+- `nil` if satisfiability is undetermined
+- One term satisfying original term if satisfiable
+
+`#unsat?` returns `true` if unsatisfiable, `false` otherwise.
+
+### `PropLogic` module methods
+#### `PropLogic.new_variable(name = nil)`
+declare new variable with name `name`. if `name` is not supplied, unique name is set.
+
+Notice that even if the same `name` as before specified, it returns *different* variable.
+
+#### `PropLogic.all_and(*terms)`/`PropLogic.all_or(*terms)`
+calculate all and/or of `terms`. Use this when and/or calculation for many variables.
+
+#### `PropLogic.sat_solver`/ PropLogic.sat_solver=`
+set/get SAT solver object. It shoud have `#call(term)` method and return value is described in `Term#sat?`.
+
+### Information
+`PropLogic::Term` has some subclasses, but these classes are subject to change.
+Using subclasses of `PropLogic::Term` directly is not recommended.
 
 ## Development
 
@@ -37,3 +133,8 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+## ToDo
+
+- Introduce special blocks to build terms inside
+- Add nontrivial SAT solver for practical usage
