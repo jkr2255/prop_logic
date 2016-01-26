@@ -134,7 +134,7 @@ module PropLogic
     end
         
     def sat?
-      PropLogic.sat_solver.sat?(self)
+      PropLogic.sat_solver.call(self)
     end
     
     def unsat?

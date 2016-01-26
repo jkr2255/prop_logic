@@ -1,7 +1,7 @@
 module PropLogic
   module BruteForceSatSolver
     class << self
-      def sat?(term)
+      def call(term)
         # obvious value
         return True if term == True
         variables = term.variables

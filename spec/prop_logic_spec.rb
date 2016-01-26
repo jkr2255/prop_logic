@@ -10,19 +10,19 @@ describe PropLogic do
   end
   
   describe '#sat_solver' do
-    it 'returns Object responding to sat?' do
-      expect(PropLogic.sat_solver).to respond_to(:sat?)
+    it 'returns Object responding to call' do
+      expect(PropLogic.sat_solver).to respond_to(:call)
     end
   end
   
   describe '#sat_solver=' do
-    it 'can be assinged with object responding to sat?' do
+    it 'can be assinged with object responding to call' do
       solver_mock = double('solver')
-      allow(solver_mock).to receive(:sat?)
+      allow(solver_mock).to receive(:call)
       expect{PropLogic.sat_solver = solver_mock}.not_to raise_error
     end
   
-    it 'raises TypeError when sat? method not found' do
+    it 'raises TypeError when call method not found' do
       expect{PropLogic.sat_solver = nil}.to raise_error(TypeError)
     end
     

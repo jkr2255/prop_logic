@@ -7,7 +7,7 @@ module PropLogic
   end
   
   def self.sat_solver=(engine)
-    raise TypeError unless engine.respond_to?(:sat?)
+    raise TypeError unless engine.respond_to?(:call)
     @@sat_solver = engine
   end
 end
