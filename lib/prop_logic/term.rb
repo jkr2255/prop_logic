@@ -133,25 +133,6 @@ module PropLogic
       assign [], variables
     end
         
-    def reducible_to_constant?(trues, falses)
-      step_reduced = assign(trues, falses).reduce
-      return step_reduced if step_reduced.is_a?(Constant)
-      # test all residue variables
-      ret = nil
-      PropLogic.all_combination(step_reduced.variables) do |reduced_trues|
-        reduced_falses = step_reduced.variables - reduced_trues
-        last = step_reduced.assign(reduced_trues, reduced_falses).reduce
-        if ret
-          return nil if last != ret
-        else
-          ret = last
-        end
-      end
-      ret
-    end
-    
-    protected :reducible_to_constant?
-    
     def sat?
       PropLogic.sat_solver.sat?(self)
     end
