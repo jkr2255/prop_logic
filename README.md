@@ -1,6 +1,7 @@
 # PropLogic
 
 [![Build Status](https://travis-ci.org/jkr2255/prop_logic.svg?branch=master)](https://travis-ci.org/jkr2255/prop_logic)
+[![Gem Version](https://badge.fury.io/rb/prop_logic.svg)](https://badge.fury.io/rb/prop_logic)
 
 PropLogic implements propositional logic in Ruby, usable like normal variables.
 
@@ -56,6 +57,9 @@ diff = (~a | ~b).equiv?(~(a & b)) # true
 ## Restriction
 SAT solver bundled with this gem is brute-force solver (intended only for testing), so it is inappropriate to use for
 real-scale problems.
+
+In CRuby and Rubinius, bindings to MiniSat ([jkr2255/prop_logic-minisat](https://github.com/jkr2255/prop_logic-minisat)) is available.
+It is a plugin for this gem, so no code (except require and Gemfile) needs to be changed to use `prop_logic-minisat`.
 
 ## References
 `PropLogic::Term` is immutable, meaning that all calculations return new Terms.
@@ -141,4 +145,3 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## ToDo
 
 - Introduce special blocks to build terms inside
-- Add nontrivial SAT solver for practical usage
