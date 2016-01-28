@@ -84,7 +84,11 @@ NNF doesn't contain following terms:
 `#nnf?` checks if the term is NNF, and `#to_nnf` returns term converted to NNF.
 
 #### Reduction
-Term is regarded as reduced if it is NNF and it contains no constants (`PropLogic::True`/`PropLogic::False`).
+Term is regarded as reduced if:
+0. it is NNF
+0. it contains no constants (`PropLogic::True`/`PropLogic::False`)
+0. it contains no ambivalent terms
+0. it contains no duplicated terms
 
 `#reduced?` checks if the term is reduced, and `#reduce` returns reduced term.
 

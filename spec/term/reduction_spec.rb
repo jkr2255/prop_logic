@@ -21,8 +21,8 @@ describe PropLogic::Term do
   	b = PropLogic.new_variable('b')
   	c = PropLogic.new_variable('c')
   	d = PropLogic.new_variable('d')
-    part1 = [~~a, ~(a & b), ~(a | b), a >> b, a | ~a, a & ~a]
-    part2 = [~~c, ~(c & d), ~(c | d), c >> d, True, False, c | ~c, c & ~c]
+    part1 = [~~a, ~(a & b), ~(a | b), a >> b, a | ~a, a & ~a, a & a, a | a]
+    part2 = [~~c, ~(c & d), ~(c | d), c >> d, True, False, c | ~c, c & ~c, c & c, c | c]
     terms = part1.dup
     part1.product(part2) do |term1, term2|
       terms << (term1 & term2)

@@ -14,6 +14,11 @@ module PropLogic
         end
       end
       return unless @is_reduced
+      # check duplication of terms
+      if @terms.any?{ |term| @terms.index(term) != @terms.rindex(term)}
+        @is_reduced = false
+        return
+      end
       # check obvious variables (mark as unreduced)
       # Negated terms (except variables) doesn't come here
       not_terms = @terms.select{ |t| t.is_a?(NotTerm) }
@@ -36,7 +41,7 @@ module PropLogic
     
     def reduce
       return self if reduced?
-      reduced_terms = @terms.map(&:reduce)
+      reduced_terms = @terms.map(&:reduce).uniq
       reduced_terms.reject!{|term| term.equal?(False)}
       return False if reduced_terms.empty?
       if reduced_terms.any?{|term| term.equal?(True)}
