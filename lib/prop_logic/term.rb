@@ -76,6 +76,7 @@ module PropLogic
     end
     
     def self.validate_terms(*terms)
+      raise ArgumentError, 'no terms given' if terms.empty?
       terms.map do |term|
         case term
         when TrueClass
