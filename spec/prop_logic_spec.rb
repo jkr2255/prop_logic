@@ -30,4 +30,40 @@ describe PropLogic do
       PropLogic.sat_solver = PropLogic::BruteForceSatSolver
     end
   end
+  
+  describe '.all_and' do
+    a = PropLogic.new_variable 'a'
+    b = PropLogic.new_variable 'b'
+  
+    it 'returns logical multipication in correct order' do
+      expect(PropLogic.all_and(a, b)).to be_equal(a & b)
+    end
+    
+    it 'returns given parameter when only one is passed' do
+      expect(PropLogic.all_and(a)).to be_equal(a)
+    end
+
+    it 'raises ArgumentError when no parameter is given' do
+      expect{PropLogic.all_and()}.to raise_error(ArgumentError)
+    end
+
+  end
+  
+  describe '.all_or' do
+    a = PropLogic.new_variable 'a'
+    b = PropLogic.new_variable 'b'
+  
+    it 'returns logical sum in correct order' do
+      expect(PropLogic.all_or(a, b)).to be_equal(a | b)
+    end
+    
+    it 'returns given parameter when only one is passed' do
+      expect(PropLogic.all_or(a)).to be_equal(a)
+    end
+
+    it 'raises ArgumentError when no parameter is given' do
+      expect{PropLogic.all_or()}.to raise_error(ArgumentError)
+    end
+
+  end
 end
