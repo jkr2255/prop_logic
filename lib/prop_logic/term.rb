@@ -90,6 +90,8 @@ module PropLogic
       end
     end
     
+    private_class_method :validate_terms
+    
     def self.get(klass, *terms)
       @table ||= Ref::WeakValueMap.new
       terms = validate_terms(*terms)
