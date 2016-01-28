@@ -98,6 +98,7 @@ module PropLogic
       terms = validate_terms(*terms)
       if klass == AndTerm || klass == OrTerm
         terms = terms.map{|t| t.is_a?(klass) ? t.terms : t}.flatten
+        return terms[0] if terms.length == 1
       end 
       key = klass.name + terms.map(&:object_id).join(',')
       return @table[key] if @table[key]
