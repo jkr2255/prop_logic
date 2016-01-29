@@ -1,7 +1,10 @@
 require 'ref'
+require 'prop_logic/functions'
 
 module PropLogic
   class Term
+    include Functions
+  
     def initialize
       raise NotImplementedError, 'Term cannot be initialized'
     end

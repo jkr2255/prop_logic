@@ -67,8 +67,8 @@ module PropLogic
       return super unless reduced?
       return self if cnf?
       pool = []
-      without_pools = PropLogic.all_and(*@terms.map{|t| t.tseitin(pool)})
-      PropLogic.all_and(without_pools, *pool)
+      without_pools = all_and(*@terms.map{|t| t.tseitin(pool)})
+      all_and(without_pools, *pool)
     end
     
     def tseitin(pool)

@@ -66,13 +66,13 @@ module PropLogic
       return self if cnf?
       pool = []
       without_pools = tseitin(pool)
-      PropLogic.all_and(without_pools, *pool)
+      all_and(without_pools, *pool)
     end
     
     def tseitin(pool)
       val = Variable.new
       terms = @terms.map{|t| t.tseitin(pool)}
-      pool << (~val | PropLogic.all_or(*terms))
+      pool << (~val | all_or(*terms))
       val      
     end
 
