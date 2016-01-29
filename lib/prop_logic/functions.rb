@@ -1,5 +1,6 @@
 module PropLogic
   module Functions
+    module_function
     def all_or(*args)
       Term.get OrTerm, *args
     end
@@ -14,6 +15,8 @@ module PropLogic
   end
   
   extend Functions
+  include Functions
+  public_class_method(*Functions.private_instance_methods(false))
   
   def all_combination(arr)
     0.upto(arr.length) do |num|
