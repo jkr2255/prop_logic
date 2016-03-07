@@ -1,3 +1,6 @@
+# Ver. 0.1.2 (2016/03/07)
+- Cache @variables (avoid recursive search)
+
 # Ver. 0.1.1 (2016/01/28)
 - `PropLogic.all_and`/`PropLogic.all_or` with less than one argument(s) behaviors fixed
 - And/or terms with duplicated subterms are no longer regarded as reduced 

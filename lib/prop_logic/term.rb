@@ -107,6 +107,8 @@ module PropLogic
       return @table[key] if @table[key]
       ret = klass.__send__ :new, *terms
       @table[key] = ret
+      # kick caching mechanism
+      ret.variables
       ret.freeze
     end
     
@@ -115,7 +117,7 @@ module PropLogic
     end
     
     def variables
-      @terms.map(&:variables).flatten.uniq
+      @variables ||= @terms.map(&:variables).flatten.uniq
     end
     
     def assign(trues, falses, variables = nil)
