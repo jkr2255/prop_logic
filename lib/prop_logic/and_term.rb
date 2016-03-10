@@ -26,12 +26,12 @@ module PropLogic
       negated_variales = not_terms.map{|t| t.terms[0]}
       @is_reduced = false unless (negated_variales & @terms).empty?
     end
-    
+
     def to_s(in_term = false)
       str = @terms.map(&:to_s_in_term).join(' & ')
       in_term ? "( #{str} )" : str
     end
-    
+
     def nnf?
       @is_nnf
     end
@@ -39,7 +39,7 @@ module PropLogic
     def reduced?
       @is_reduced
     end
-    
+
     def reduce
       return self if reduced?
       reduced_terms = @terms.map(&:reduce).uniq
@@ -57,12 +57,12 @@ module PropLogic
         Term.get self.class, *reduced_terms
       end
     end
-    
+
     def cnf?
       return false unless reduced?
       @terms.all?(&:cnf?)
     end
-    
+
     def to_cnf
       return super unless reduced?
       return self if cnf?
@@ -70,13 +70,13 @@ module PropLogic
       without_pools = all_and(*@terms.map{|t| t.tseitin(pool)})
       all_and(without_pools, *pool)
     end
-    
+
     def tseitin(pool)
       val = Variable.new
       terms = @terms.map{|t| t.cnf? ? t : t.tseitin(pool)}
       pool.concat terms.map{|t| ~val | t }
       val
     end
-    
+
   end
 end

@@ -5,37 +5,37 @@ module PropLogic
       @terms = [].freeze
       freeze
     end
-    
+
     public_class_method :new
-    
+
     def to_s(*)
       @name
     end
-    
+
     def nnf?
       true
     end
-    
+
     def reduced?
       true
     end
-    
+
     def to_cnf
       self
     end
-    
+
     def tseitin(pool)
       self
     end
-    
+
     def cnf?
       true
     end
-    
+
     def variables
       [self]
     end
-    
+
     def assign(trues, falses, variables = nil)
       if trues.include? self
         True

@@ -3,15 +3,15 @@ module PropLogic
     def initialize(term)
       @terms = [term].freeze
     end
-    
+
     def to_s(*)
       "~" + @terms[0].to_s(true)
     end
-    
+
     def nnf?
       @terms[0].is_a?(Variable)
     end
-    
+
     def to_nnf
       term = @terms[0]
       case term
@@ -27,11 +27,11 @@ module PropLogic
         all_and(*term.terms.map{|t| (~t).to_nnf})
       end
     end
-    
+
     def reduced?
       nnf? && ! (@terms[0].is_a?(Constant))
     end
-    
+
     def reduce
       return self if reduced?
       reduced_term = @terms[0].reduce
@@ -44,7 +44,7 @@ module PropLogic
         (~reduced_term).to_nnf
       end
     end
-    
+
     def to_cnf
       if reduced?
         self
@@ -52,7 +52,7 @@ module PropLogic
         super
       end
     end
-    
+
     def tseitin(pool)
       if nnf?
         self
@@ -62,7 +62,7 @@ module PropLogic
         raise 'Non-NNF terms cannot be converted to Tseitin form.' + self.to_s
       end
     end
-    
+
     alias_method :cnf?, :reduced?
   end
 end

@@ -11,7 +11,7 @@ describe PropLogic::ThenTerm do
   it 'is not an nnf term' do
     expect(a >> b).not_to be_nnf
   end
-  
+
   it 'is equivalent to !a | b' do
     expect(a >> b).to be_equiv(~a | b)
   end

@@ -7,7 +7,7 @@ describe PropLogic::Term do
   c = PropLogic::new_variable 'c'
   d = PropLogic::new_variable 'd'
   terms2 = [c, ~c, c & d, c | d, c >> d, PropLogic::True, PropLogic::False, true, false].freeze
-  
+
   terms1.each do |term|
     context "Not(#{term.class.name})" do
       it 'is a Term' do
@@ -17,21 +17,21 @@ describe PropLogic::Term do
         expect(~term).to be_equal(~term)
       end
     end
-    
+
     context "#{term.class.name}" do
       it 'is frozen' do
         expect(term).to be_frozen
       end
-      
+
       context '#terms' do
         it 'cannot be altered' do
           expect{term.terms << True}.to raise_error
         end
       end
-      
+
     end
   end
-  
+
   # dup for avoiding Rubinius bug (https://github.com/rubinius/rubinius/issues/3587)
   terms1.dup.product(terms2, [:&, :|, :>>]) do |term1, term2, op|
     context "#{term1.class.name} #{op} #{term2.class.name}" do
@@ -43,7 +43,7 @@ describe PropLogic::Term do
       end
     end
   end
-  
+
   terms1.dup.product([:&, :|, :>>]) do |term1, op|
     context "#{term1.class.name} #{op} (Incompatible type)" do
       it 'generates TypeError' do
@@ -51,7 +51,7 @@ describe PropLogic::Term do
       end
     end
   end
-  
+
   terms1.each do |term|
     context "#{term.class}" do
       it 'cannot be duplicated' do
@@ -59,5 +59,5 @@ describe PropLogic::Term do
       end
     end
   end
-  
+
 end
