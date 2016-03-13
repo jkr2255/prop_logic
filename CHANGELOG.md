@@ -1,3 +1,7 @@
+# Ver. 0.2.0 (2016/03/13)
+- Add interface for incremental solver
+- add `Term#each_sat`
+
 # Ver. 0.1.3 (2016/03/11)
 - Code cleanup
 - save `PropLogic.sat_solver` to module instance variable (no interface change)

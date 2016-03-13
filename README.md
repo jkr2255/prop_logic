@@ -112,6 +112,9 @@ CNF is one of these:
 
 `#unsat?` returns `true` if unsatisfiable, `false` otherwise.
 
+#### SAT enumrator
+`#each_sat` is an enumerator for all satifiabilities. Returns `Enumerator` if calling without block.
+
 ### `PropLogic` module methods
 #### `PropLogic.new_variable(name = nil)`
 declare new variable with name `name`. if `name` is not supplied, unique name is set.
@@ -123,6 +126,10 @@ calculate all and/or of `terms`. Use this when and/or calculation for many varia
 
 #### `PropLogic.sat_solver`/ PropLogic.sat_solver=`
 set/get SAT solver object. It shoud have `#call(term)` method and return value is described in `Term#sat?`.
+
+#### `PropLogic.incremental_solver`/ PropLogic.incremental_solver=`
+set/get incremental SAT solver object. It shoud be class with `#add` and `#sat?` methods.
+(see `DefaultIncrementalSolver` for its interface)
 
 ### Information
 `PropLogic::Term` has some subclasses, but these classes are subject to change.
