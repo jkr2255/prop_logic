@@ -2,13 +2,19 @@ require 'ref'
 require 'prop_logic/functions'
 
 module PropLogic
+  #
+  # Abstract base class for terms of PropLogic.
+  # Actual terms are subclasses of Term.
+  #
   class Term
     include Functions
 
+    # @raise NotImplementedError Term is abstract class.
     def initialize
       raise NotImplementedError, 'Term cannot be initialized'
     end
 
+    # disallow duplication
     def initialize_copy(*)
       raise TypeError, 'Term cannot be duplicated (immutable, not necessary)'
     end
@@ -112,10 +118,13 @@ module PropLogic
       ret.freeze
     end
 
+    # check if this term is a cnf term.
+    # @return [Boolean] false unless overridden.
     def cnf?
       false
     end
 
+    # @return [Array] variables used by this term.
     def variables
       @variables ||= @terms.map(&:variables).flatten.uniq
     end
@@ -144,6 +153,17 @@ module PropLogic
 
     def sat?
       PropLogic.sat_solver.call(self)
+    end
+
+    # loop with each satisfied terms.
+    # @return [Enumerator] if block is not given.
+    # @return [nil] if block is given.
+    def each_sat
+      return to_enum(:each_sat) unless block_given?
+      sat_loop(self) do |sat, solver|
+        yield sat
+        solver << ~sat
+      end
     end
 
     def unsat?

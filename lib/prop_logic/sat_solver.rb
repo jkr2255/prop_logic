@@ -3,6 +3,7 @@ module PropLogic
   # default SAT solver.
   # only intended for test use.
   @sat_solver = PropLogic::BruteForceSatSolver
+  @incremental_solver = PropLogic::DefaultIncrementalSolver
 
   class << self
     # @return [Object] current SAT solver
@@ -14,5 +15,9 @@ module PropLogic
       raise TypeError unless engine.respond_to?(:call)
       @sat_solver = engine
     end
+
+    # curreent incremental solver
+    attr_accessor :incremental_solver
+
   end
 end
