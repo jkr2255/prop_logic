@@ -1,3 +1,6 @@
+# Ver. 0.2.1 (2016/04/02)
+- Improve performance in `#each_sat`
+
 # Ver. 0.2.0 (2016/03/13)
 - Add interface for incremental solver
 - add `Term#each_sat`

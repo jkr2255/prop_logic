@@ -162,7 +162,10 @@ module PropLogic
       return to_enum(:each_sat) unless block_given?
       sat_loop(self) do |sat, solver|
         yield sat
-        solver << ~sat
+        negated_vars = sat.terms.map do |t|
+          t.is_a?(NotTerm) ? t.terms[0] : ~t
+        end
+        solver << PropLogic.all_or(*negated_vars)
       end
     end
 
