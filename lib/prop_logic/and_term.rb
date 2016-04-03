@@ -16,7 +16,7 @@ module PropLogic
       end
       return unless @is_reduced
       # check duplication of terms
-      if @terms.any?{ |term| @terms.index(term) != @terms.rindex(term)}
+      if @terms.length != @terms.uniq.length
         @is_reduced = false
         return
       end
