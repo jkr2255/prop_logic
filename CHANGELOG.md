@@ -1,3 +1,6 @@
+# Ver. 0.2.2 (2016/04/04)
+- Improve performance in `AndTerm`/`OrTerm` generation
+
 # Ver. 0.2.1 (2016/04/02)
 - Improve performance in `#each_sat`
 
