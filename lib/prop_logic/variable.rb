@@ -45,5 +45,16 @@ module PropLogic
         self
       end
     end
+
+    # bypassing Term.get
+    # @return [NotTerm] negated variable
+    def not
+      Term.__send__ :cached, "#{NotTerm.name}#{object_id}", NotTerm, self
+    end
+
+    alias_method :~, :not
+    alias_method :-@, :not
+
+
   end
 end

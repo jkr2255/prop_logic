@@ -102,20 +102,26 @@ module PropLogic
 
     private_class_method :validate_terms
 
-    def self.get(klass, *terms)
+    def self.cached(key, klass, *terms)
       @table ||= Ref::WeakValueMap.new
-      terms = validate_terms(*terms)
-      if klass == AndTerm || klass == OrTerm
-        terms = terms.map{|t| t.is_a?(klass) ? t.terms : t}.flatten
-        return terms[0] if terms.length == 1
-      end
-      key = klass.name + terms.map(&:object_id).join(',')
       return @table[key] if @table[key]
       ret = klass.__send__ :new, *terms
       @table[key] = ret
       # kick caching mechanism
       ret.variables
       ret.freeze
+    end
+
+    private_class_method :cached
+
+    def self.get(klass, *terms)
+      terms = validate_terms(*terms)
+      if klass == AndTerm || klass == OrTerm
+        terms = terms.map{|t| t.is_a?(klass) ? t.terms : t}.flatten
+        return terms[0] if terms.length == 1
+      end
+      key = klass.name + terms.map(&:object_id).join(',')
+      cached key, klass, *terms
     end
 
     # check if this term is a cnf term.
