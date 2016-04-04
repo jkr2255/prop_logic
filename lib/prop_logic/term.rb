@@ -102,8 +102,14 @@ module PropLogic
 
     private_class_method :validate_terms
 
+    def self.generate_cache
+      Ref::WeakValueMap.new
+    end
+
+    private_class_method :generate_cache
+
     def self.cached(klass, *terms)
-      @table ||= Ref::WeakValueMap.new
+      @table ||= generate_cache
       key = klass.name + terms.map(&:object_id).join(',')
       return @table[key] if @table[key]
       ret = klass.__send__ :new, *terms
