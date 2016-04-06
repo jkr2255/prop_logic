@@ -1,3 +1,7 @@
+# Ver. 0.2.3 (2016/04/06)
+- Inprove performance in negating variables
+- Optionally select normal Hash for caching
+
 # Ver. 0.2.2 (2016/04/04)
 - Improve performance in `AndTerm`/`OrTerm` generation
 

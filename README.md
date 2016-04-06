@@ -54,12 +54,19 @@ diff = (~a | ~b).equiv?(~(a & b)) # true
 (a & b).assign_true(a).assign_false(b).reduce # PropLogic::False
 ```
 
+### Using normal Hash for caching
+By default, `prop_logic` uses weak reference for caching terms, allowing garbage collection.
+
+If this is inappropriate (overhead or unstability), use `require 'prop_logic/hash_cache'` to use `Hash` for caching.
+
 ## Restriction
 SAT solver bundled with this gem is brute-force solver (intended only for testing), so it is inappropriate to use for
 real-scale problems.
 
 In CRuby and Rubinius, bindings to MiniSat ([jkr2255/prop_logic-minisat](https://github.com/jkr2255/prop_logic-minisat)) is available.
 It is a plugin for this gem, so no code (except require and Gemfile) needs to be changed to use `prop_logic-minisat`.
+
+In JRuby binding to Sat4j ([jkr2255/prop_logic-sat4j](https://github.com/jkr2255/prop_logic-sat4j)) is available.
 
 ## References
 `PropLogic::Term` is immutable, meaning that all calculations return new Terms.
