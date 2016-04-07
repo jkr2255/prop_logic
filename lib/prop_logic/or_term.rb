@@ -2,28 +2,7 @@ module PropLogic
   class OrTerm < Term
     def initialize(*terms)
       @terms = terms.map{|t| t.is_a?(OrTerm) ? t.terms : t}.flatten.freeze
-      @is_nnf = @terms.all?(&:nnf?)
-      @is_reduced = @is_nnf && @terms.all? do |term|
-        if term.is_a?(Constant) || !(term.reduced?)
-          false
-        elsif !(term.is_a?(NotTerm))
-          true
-        else
-          # NotTerm
-          term.terms[0].is_a?(Variable)
-        end
-      end
-      return unless @is_reduced
-      # check duplication of terms
-      if @terms.length != @terms.uniq.length
-        @is_reduced = false
-        return
-      end
-      # check obvious variables (mark as unreduced)
-      # Negated terms (except variables) doesn't come here
-      not_terms = @terms.select{ |t| t.is_a?(NotTerm) }
-      negated_variales = not_terms.map{|t| t.terms[0]}
-      @is_reduced = false unless (negated_variales & @terms).empty?
+      check_nnf_reduced
     end
 
     def to_s(in_term = false)

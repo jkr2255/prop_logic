@@ -84,6 +84,34 @@ module PropLogic
       reduce.to_cnf
     end
 
+    def check_nnf_reduced
+      @is_nnf = @terms.all?(&:nnf?)
+      # term with negative terms are no longer terated as reduced
+      @is_reduced = @is_nnf && @terms.all? do |term|
+        if term.is_a?(Constant) || !term.reduced?
+          false
+        elsif !(term.is_a?(NotTerm))
+          true
+        else
+          # NotTerm
+          term.terms[0].is_a?(Variable)
+        end
+      end
+      return unless @is_reduced
+      # check duplication of terms
+      if @terms.length != @terms.uniq.length
+        @is_reduced = false
+        return
+      end
+      # check contradicted variables (mark as unreduced)
+      # Negated terms (except variables) doesn't come here
+      not_terms = @terms.select{ |t| t.is_a?(NotTerm) }
+      negated_variales = not_terms.map{|t| t.terms[0]}
+      @is_reduced = false unless (negated_variales & @terms).empty?
+    end
+
+    private :check_nnf_reduced
+
     def self.validate_terms(*terms)
       raise ArgumentError, 'no terms given' if terms.empty?
       terms.map do |term|
