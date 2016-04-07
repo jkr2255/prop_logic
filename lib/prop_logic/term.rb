@@ -206,17 +206,12 @@ module PropLogic
     end
 
     def check_nnf_reduced
-      @is_nnf = @terms.all?(&:nnf?)
-      # term with negative terms are no longer terated as reduced
-      @is_reduced = @is_nnf && @terms.all? do |term|
-        if term.is_a?(Constant) || !term.reduced?
-          false
-        elsif !(term.is_a?(NotTerm))
-          true
-        else
-          # NotTerm
-          term.terms[0].is_a?(Variable)
-        end
+      @is_reduced = true
+      @is_nnf = @terms.all? do |term|
+        @is_reduced &&= !term.is_a?(Constant) && term.reduced?
+        @is_reduced &&= !term.is_a?(NotTerm) || term.terms[0].is_a?(Variable)
+        next true if @is_reduced
+        term.nnf?
       end
       return unless @is_reduced
       check_term_uniqueness
