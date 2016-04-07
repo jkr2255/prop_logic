@@ -84,34 +84,6 @@ module PropLogic
       reduce.to_cnf
     end
 
-    def check_nnf_reduced
-      @is_nnf = @terms.all?(&:nnf?)
-      # term with negative terms are no longer terated as reduced
-      @is_reduced = @is_nnf && @terms.all? do |term|
-        if term.is_a?(Constant) || !term.reduced?
-          false
-        elsif !(term.is_a?(NotTerm))
-          true
-        else
-          # NotTerm
-          term.terms[0].is_a?(Variable)
-        end
-      end
-      return unless @is_reduced
-      # check duplication of terms
-      if @terms.length != @terms.uniq.length
-        @is_reduced = false
-        return
-      end
-      # check contradicted variables (mark as unreduced)
-      # Negated terms (except variables) doesn't come here
-      not_terms = @terms.select{ |t| t.is_a?(NotTerm) }
-      negated_variales = not_terms.map{|t| t.terms[0]}
-      @is_reduced = false unless (negated_variales & @terms).empty?
-    end
-
-    private :check_nnf_reduced
-
     def self.validate_terms(*terms)
       raise ArgumentError, 'no terms given' if terms.empty?
       terms.map do |term|
@@ -215,6 +187,40 @@ module PropLogic
 
     def equiv?(other)
       ((self | other) & (~self | ~other)).unsat?
+    end
+
+    private
+
+    # checking methods
+
+    def check_term_uniqueness
+      @is_reduced &&= (@terms.length == @terms.uniq.length)
+    end
+
+    def check_ambivalent_vars
+      return unless @is_reduced
+      term_by_class = @terms.group_by(&:class)
+      return if term_by_class[NotTerm].nil? || term_by_class[Variable].nil?
+      negated_variales = term_by_class[NotTerm].map { |t| t.terms[0] }
+      @is_reduced = false unless (negated_variales & term_by_class[Variable]).empty?
+    end
+
+    def check_nnf_reduced
+      @is_nnf = @terms.all?(&:nnf?)
+      # term with negative terms are no longer terated as reduced
+      @is_reduced = @is_nnf && @terms.all? do |term|
+        if term.is_a?(Constant) || !term.reduced?
+          false
+        elsif !(term.is_a?(NotTerm))
+          true
+        else
+          # NotTerm
+          term.terms[0].is_a?(Variable)
+        end
+      end
+      return unless @is_reduced
+      check_term_uniqueness
+      check_ambivalent_vars
     end
 
   end
