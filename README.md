@@ -1,6 +1,8 @@
 # PropLogic
 
 [![Build Status](https://travis-ci.org/jkr2255/prop_logic.svg?branch=master)](https://travis-ci.org/jkr2255/prop_logic)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jkr2255/prop_logic/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jkr2255/prop_logic/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/jkr2255/prop_logic/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/jkr2255/prop_logic/?branch=master)
 [![Gem Version](https://badge.fury.io/rb/prop_logic.svg)](https://badge.fury.io/rb/prop_logic)
 
 PropLogic implements propositional logic in Ruby, usable like normal variables.
