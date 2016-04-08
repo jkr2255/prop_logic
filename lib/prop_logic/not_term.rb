@@ -2,6 +2,8 @@ module PropLogic
   class NotTerm < Term
     def initialize(term)
       @terms = [term].freeze
+      @is_nnf = @terms[0].is_a?(Variable)
+      @is_reduced = @is_nnf && ! (@terms[0].is_a?(Constant))
     end
 
     def to_s(*)
@@ -9,7 +11,7 @@ module PropLogic
     end
 
     def nnf?
-      @terms[0].is_a?(Variable)
+      @is_nnf
     end
 
     def to_nnf
@@ -29,7 +31,7 @@ module PropLogic
     end
 
     def reduced?
-      nnf? && ! (@terms[0].is_a?(Constant))
+      @is_reduced
     end
 
     def reduce
