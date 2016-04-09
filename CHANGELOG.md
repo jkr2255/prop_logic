@@ -1,3 +1,7 @@
+# Ver. 0.2.4 (2016/04/09)
+- Using Scrutinizer for code quality
+- Performance improvements
+
 # Ver. 0.2.3 (2016/04/06)
 - Inprove performance in negating variables
 - Optionally select normal Hash for caching
